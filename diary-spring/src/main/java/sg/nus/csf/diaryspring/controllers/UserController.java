@@ -28,28 +28,4 @@ public class UserController {
     return user;
   }
 
-  @PostMapping(path="/register")
-  public ResponseEntity<Object> registerUser (@RequestBody RegistrationRequest req) {
-    return this.userService.registerUser(req);
-  }
-
-  @PostMapping(path="/login")
-  public ResponseEntity<Object> loginUser (@RequestBody LoginRequest req) {
-    return this.userService.registerUser(req);
-  }
-
-  @PostMapping(path="/logout")
-  public ResponseEntity<Object> logoutUser (@RequestBody LogoutRequest req) {
-    return this.userService.registerUser(req);
-  }
-
-  @PostMapping(path="/follow")
-  public ResponseEntity<Object> followUser (@RequestBody FollowRequest req) {
-    return this.userService.registerUser(req);
-  }
-
-  @PostMapping(path="/unfollow")
-  public ResponseEntity<Object> unfollowUser (@RequestBody UnfollowRequest req) {
-    return this.userService.registerUser(req);
-  }
 }
