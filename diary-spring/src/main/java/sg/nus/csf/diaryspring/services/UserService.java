@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
     }
   }
 
-  public ResponseEntity<Object> registerUser (RegistrationRequest req) {
+  public ResponseEntity<Object> registerUser(RegistrationRequest req) {
     Object responseBody = new Object();
     HttpHeaders responseHeaders = new HttpHeaders();
     HttpStatus responseStatus = HttpStatus.resolve(200);

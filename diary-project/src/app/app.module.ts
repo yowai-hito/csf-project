@@ -6,10 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowseComponent } from './pages/browse/browse.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AppService } from './services/app.service';
+import { ChatroomComponent } from './pages/chatroom/chatroom.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -25,9 +27,11 @@ export class XhrInterceptor implements HttpInterceptor {
 @NgModule({
   declarations: [
     AppComponent,
-    BrowseComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ChatroomComponent,
+    RegisterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

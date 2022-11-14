@@ -23,9 +23,14 @@ public class UserController {
     this.userService = userService;
   }
   
-  @PostMapping("user")
-  public Principal authenticatedUser(Principal user) {
+  @PostMapping("/userDetails")
+  public Principal authenticatedUser(@RequestBody Principal user) {
     return user;
   }
+
+  @PostMapping("/register")
+  public ResponseEntity<Object> doRegistration(@RequestBody RegistrationRequest req) {
+    return this.userService.registerUser(req); 
+}
 
 }

@@ -1,6 +1,9 @@
 package sg.nus.csf.diaryspring.repositories;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +40,20 @@ public class UserRepository {
 
     return jdbc.update(SQL_USERS_CREATE_USER_ACCOUNT,
       user.getUsername(), user.getPassword(), user.getAuthorities(), user.getHandle());
-  } 
+  }
+
+  public List<Integer> getUserIdFromHandles (List<String> userHandles) {
+    
+    String queryNargs = String.join(",", Collections.nCopies(userHandles.size(), "?"));
+    String sqlQuery = String.format(SQL_USERS_SELECT_USERID_FROM_HANDLE + "(%s)", queryNargs);
+    List<Integer> userIds = new ArrayList<>();
+
+    return jdbc.query(sqlQuery,
+    (ResultSet rs) -> {
+        if (!rs.next()){return new ArrayList<>();}
+        userIds.add(rs.getInt("account_id"));
+        return userIds;
+    },
+    userHandles.toArray());
+  }
 }
