@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   credentials !: FormGroup;
   error: any;
 
-  constructor(private appService: AppService, private http: HttpClient, private router: Router, private fb: FormBuilder) { }
+  constructor(private appService: AppService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.appService.authenticate(this.credentials.value, () => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/home');
     });
     return false;
   }

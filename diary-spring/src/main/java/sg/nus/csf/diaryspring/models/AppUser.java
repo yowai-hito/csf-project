@@ -14,17 +14,19 @@ public class AppUser implements UserDetails {
   private final String handle;
   private final String username;
   private final String password;
+  private final String email;
   private final boolean isAccountNonExpired;
   private final boolean isAccountNonLocked;
   private final boolean isCredentialsNonExpired;
   private final boolean isEnabled;
 
-  public AppUser(String username, String password, String handle) {
+  public AppUser(String username, String password, String handle, String email) {
     List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
     roles.add(new SimpleGrantedAuthority("ROLE_USER"));
     this.username = username;
     this.password = password;
     this.handle = handle;
+    this.email = email;
     this.grantedAuthorities = roles;
     this.isAccountNonExpired = true;
     this.isAccountNonLocked = true;
@@ -32,23 +34,25 @@ public class AppUser implements UserDetails {
     this.isEnabled = true;
   }
 
-  public AppUser(List<? extends GrantedAuthority> grantedAuthorities, String username, String password, String handle) {
+  public AppUser(List<? extends GrantedAuthority> grantedAuthorities, String username, String password, String handle, String email) {
     this.grantedAuthorities = grantedAuthorities;
     this.username = username;
     this.password = password;
     this.handle = handle;
+    this.email = email;
     this.isAccountNonExpired = true;
     this.isAccountNonLocked = true;
     this.isCredentialsNonExpired = true;
     this.isEnabled = true;
   }
 
-  public AppUser(List<? extends GrantedAuthority> grantedAuthorities, String username, String password, String handle,
+  public AppUser(List<? extends GrantedAuthority> grantedAuthorities, String username, String password, String handle, String email,
       boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
     this.grantedAuthorities = grantedAuthorities;
     this.username = username;
     this.password = password;
     this.handle = handle;
+    this.email = email;
     this.isAccountNonExpired = isAccountNonExpired;
     this.isAccountNonLocked = isAccountNonLocked;
     this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -64,6 +68,10 @@ public class AppUser implements UserDetails {
   public String getPassword() {
     // TODO Auto-generated method stub
     return password;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
   @Override

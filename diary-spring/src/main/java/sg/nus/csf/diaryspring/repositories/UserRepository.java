@@ -29,7 +29,8 @@ public class UserRepository {
           AppUserRole.getRole(rs.getString("account_role")),
           rs.getString("account_name"),
           rs.getString("account_password"),
-          rs.getString("account_handle")
+          rs.getString("account_handle"),
+          rs.getString("account_email")
         );
         return Optional.of(user);
     },
@@ -39,7 +40,7 @@ public class UserRepository {
   public int registerUser(AppUser user) {
 
     return jdbc.update(SQL_USERS_CREATE_USER_ACCOUNT,
-      user.getUsername(), user.getPassword(), user.getAuthorities(), user.getHandle());
+      user.getUsername(), user.getPassword(), "USER", user.getHandle(), user.getEmail());
   }
 
   public List<Integer> getUserIdFromHandles (List<String> userHandles) {

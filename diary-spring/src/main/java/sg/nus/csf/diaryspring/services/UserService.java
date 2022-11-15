@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
     HttpHeaders responseHeaders = new HttpHeaders();
     HttpStatus responseStatus = HttpStatus.resolve(200);
 
-    AppUser newUser = new AppUser(req.getUsername(), this.passwordEncoder.encode(req.getPassword()), req.getHandle());
+    AppUser newUser = new AppUser(req.getUsername(), this.passwordEncoder.encode(req.getPassword()), req.getHandle(), req.getEmail());
     userRepository.registerUser(newUser);
 
     responseHeaders.set("Content-Type","application/json");
