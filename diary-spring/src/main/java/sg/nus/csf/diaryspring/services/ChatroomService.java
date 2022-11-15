@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import sg.nus.csf.diaryspring.models.CreateChatroomRequest;
 import sg.nus.csf.diaryspring.models.InviteChatroomRequest;
 import sg.nus.csf.diaryspring.repositories.ChatroomRepository;
@@ -55,6 +57,39 @@ public class ChatroomService {
       responseBody = "Error, users have not been added to the group";
     } else {
       responseBody = count + " users have been added to the group.";
+    }
+    return new ResponseEntity<>(responseBody, responseHeaders, responseStatus);
+  }
+
+  public ResponseEntity<JSONObject> getChatroomName(String chatroomId) {
+
+    JSONObject responseBody = new JSONObject();
+    HttpHeaders responseHeaders = new HttpHeaders();
+    HttpStatus responseStatus = HttpStatus.resolve(200);
+    responseHeaders.set("Content-Type","application/json");
+    responseHeaders.set("Accept", "application/json");
+    try {
+      responseBody.put("chatroomName", this.chatroomRepository.getChatroomName(chatroomId).get());
+    } catch (Exception e) {
+      responseStatus = HttpStatus.resolve(400);
+      responseBody.put("Error", "Failed to retrieve chatroom name");
+    }
+    return new ResponseEntity<>(responseBody, responseHeaders, responseStatus);
+  }
+
+  public ResponseEntity<JSONArray> getUserChatrooms(String userId){
+    JSONArray responseBody = new JSONArray();
+    HttpHeaders responseHeaders = new HttpHeaders();
+    HttpStatus responseStatus = HttpStatus.resolve(200);
+    responseHeaders.set("Content-Type","application/json");
+    responseHeaders.set("Accept", "application/json");
+    try {
+      responseBody = this.chatroomRepository.getUserChatrooms(userId).get();
+    } catch (Exception e) {
+      responseStatus = HttpStatus.resolve(400);
+      JSONObject body = new JSONObject();
+      body.put("Error", "Failed to retrieve user chatrooms");
+      responseBody.add(body);
     }
     return new ResponseEntity<>(responseBody, responseHeaders, responseStatus);
   }

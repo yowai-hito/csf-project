@@ -10,9 +10,10 @@ import { AppService } from 'src/app/services/app.service';
 })
 export class RegisterComponent implements OnInit {
 
+  error:boolean = false;
   registerForm !: FormGroup
 
-  constructor(private appService: AppService, private fb: FormBuilder, private router: Router,) { }
+  constructor(private appService: AppService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -39,8 +40,12 @@ export class RegisterComponent implements OnInit {
       handle: this.registerForm.value.handle,
       password: this.registerForm.value.password}))
     registerResponse.then((data) => {
-      console.log(data)
+      if (data) {
+        this.router.navigateByUrl('/login')
+      } else {
+        this.error = true
+      }
     })
-    // this.router.navigateByUrl('/login')
+    
   }
 }

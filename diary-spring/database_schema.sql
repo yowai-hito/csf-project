@@ -20,19 +20,23 @@ create table chatrooms (
 
 create table chatroom_users (
   chatroom_id VARCHAR(32),
-  account_handle varchar(64) NOT NULL,
+  account_id int NOT NULL,
 
   CONSTRAINT fk_account_handle
-    FOREIGN KEY (account_handle) REFERENCES users(account_handle),
+    FOREIGN KEY (account_id) REFERENCES users(account_id),
   CONSTRAINT fk_chatroom_id
     FOREIGN KEY (chatroom_id) REFERENCES chatrooms(chatroom_id)
 );
 
 create table chatroom_chats (
   chatroom_id VARCHAR(32),
-  account_handle varchar(64) NOT NULL,
+  account_id int NOT NULL,
   post varchar(500) NOT NULL,
 
   CONSTRAINT fk_chatroom_post_id
-    FOREIGN KEY (chatroom_id) REFERENCES chatrooms(chatroom_id)
-)
+    FOREIGN KEY (chatroom_id) REFERENCES chatrooms(chatroom_id),
+  CONSTRAINT fk_account_post_id
+    FOREIGN KEY (account_id) REFERENCES users(account_id)
+);
+
+drop table chatroom_users;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  name !: String;
+  handle !: String;
+  email !: String;
+
 
   ngOnInit(): void {
+
   }
 
+  changeEmail(){
+    this.router.navigateByUrl('/emailChange')
+  }
+
+  uploadImage(){
+    this.router.navigateByUrl('/uploadProfilePic')
+  }
 }

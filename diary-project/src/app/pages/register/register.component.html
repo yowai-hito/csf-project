@@ -1,4 +1,7 @@
 <form [formGroup] = "registerForm" (ngSubmit)="register()">
+  <div class="alert alert-danger w-50 mx-auto" *ngIf="error" role="alert" >
+    Username, Email or Handle has been taken.
+  </div>  
   <!-- Username input -->
   <div class="form-outline mb-4 w-50 mx-auto">
 		<label class="form-label" for="username">Username:</label>

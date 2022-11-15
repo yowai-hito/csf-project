@@ -1,7 +1,7 @@
-import { Injectable, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,17 +12,8 @@ import { AppService } from './services/app.service';
 import { ChatroomComponent } from './pages/chatroom/chatroom.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-
-@Injectable()
-export class XhrInterceptor implements HttpInterceptor {
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const xhr = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-    });
-    return next.handle(xhr);
-  }
-}
+import { ChangeEmailComponent } from './pages/change-email/change-email.component';
+import { UploadProfilePicComponent } from './pages/upload-profile-pic/upload-profile-pic.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +22,9 @@ export class XhrInterceptor implements HttpInterceptor {
     LoginComponent,
     ChatroomComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChangeEmailComponent,
+    UploadProfilePicComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +34,7 @@ export class XhrInterceptor implements HttpInterceptor {
     NgbModule
   ],
   providers: [
-    AppService,
-    { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+    AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
