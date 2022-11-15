@@ -23,7 +23,9 @@ export class UploadProfilePicComponent implements OnInit {
   }
 
   onUpload() {
-    console.log(this.file);
-    this.appService.uploadProfilePic(this.file)
+    let uploadResponse:Promise<any> =this.appService.uploadProfilePic(this.file)
+    uploadResponse.then(data => {
+      console.log(data)
+    })
   }
 }

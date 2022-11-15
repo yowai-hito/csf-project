@@ -16,7 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -31,14 +36,19 @@ import sg.nus.csf.diaryspring.repositories.UserRepository;
 
 @Service
 public class UserService {
-  
-  private final UserRepository userRepository;
 
-  @Autowired
-  private AmazonS3 amazonS3;
+  private AWSCredentials credentials;
+
+  private final UserRepository userRepository;
 
   @Value("${aws.bucket}")
   String bucketName;
+
+  @Value("${aws.accesskey}")
+  String accessKey;
+
+  @Value("${aws.secretkey}")
+  String secretKey;
 
   @Autowired
   public UserService(UserRepository userRepository) {
@@ -108,6 +118,17 @@ public class UserService {
     Map<String, String> myData = new HashMap<>();
     myData.put("title", title);
     myData.put("createdOn", (new Date()).toString());
+    
+    credentials = new BasicAWSCredentials(
+      accessKey, 
+      secretKey
+    );
+
+    AmazonS3 s3client = AmazonS3ClientBuilder
+      .standard()
+      .withCredentials(new AWSStaticCredentialsProvider(credentials))
+      .withRegion(Regions.AP_SOUTHEAST_1)
+      .build();
 
     // Metadata for the object
     ObjectMetadata metadata = new ObjectMetadata();
@@ -115,12 +136,11 @@ public class UserService {
     metadata.setContentLength(myfile.getSize());
     metadata.setUserMetadata(myData);
 
-
     try {
         PutObjectRequest putReq = new PutObjectRequest( bucketName, title, 
             myfile.getInputStream(), metadata);
         putReq = putReq.withCannedAcl(CannedAccessControlList.PublicRead);
-        PutObjectResult result = amazonS3.putObject(putReq);
+        PutObjectResult result = s3client.putObject(putReq);
     } catch (Exception ex) {
         ex.printStackTrace();
     }
